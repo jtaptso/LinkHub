@@ -1,0 +1,94 @@
+﻿@model IEnumerable<LHUI.ViewModel.ApproveURLsViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+<script src="~/lib/js/jquery.min.js"></script>
+<script src="~/lib/js/jquery.unobtrusive-ajax.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#SelectAll").click(function (event) {
+            if (this.checked) {
+                $('.ckb').each(function () {
+                    this.checked = true;
+                });
+            } else {
+                $('.ckb').each(function () {
+                    this.checked = false;
+                });
+            }
+        });
+        $("#Approve").click(function () {
+            checkedIds = $(".ckb").filter(":checked").map(function () { return this.id;})
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("ApproveALL", "ApproveURLs")",
+                data: { urlIds: checkedIds.toArray() },
+                success: function () {
+                    location.reload();
+                }
+            });
+        });
+    });
+</script>
+<input type="button" id="Approve" value="Approve" class="btn btn-primary" />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.CheckBox("SelectAll")
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UrlTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LHUrlName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsApproved)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.CheckBox(item.UrlId.ToString(), false, new { @class = "ckb", Id = item.UrlId})
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UrlTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LHUrlName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                <form asp-action="Approve" asp-controller="ApproveURLs" method="post">
+                    <input type="hidden" name="urlId" asp-for="@item.UrlId" />
+                    <input type="submit" value="Approve" />
+                </form>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
