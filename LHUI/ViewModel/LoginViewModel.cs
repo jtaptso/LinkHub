@@ -10,7 +10,8 @@ namespace LHUI.ViewModel
     {
         [Required]
         public string UserName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "password must contain at least one uppercase one number and one special character")]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
         public bool RememberMe { get; set; }
     }

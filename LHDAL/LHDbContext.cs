@@ -13,7 +13,7 @@ namespace LHDAL
         {
             //Database.EnsureDeleted();
             //Database.Migrate();
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

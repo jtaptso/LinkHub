@@ -4,7 +4,6 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
 <script src="~/lib/js/jquery.min.js"></script>
 <script src="~/lib/js/jquery.unobtrusive-ajax.min.js"></script>
 <script>
@@ -33,62 +32,100 @@
         });
     });
 </script>
-<input type="button" id="Approve" value="Approve" class="btn btn-primary" />
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.CheckBox("SelectAll")
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UrlTitle)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LHUrlName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CategoryName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsApproved)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.CheckBox(item.UrlId.ToString(), false, new { @class = "ckb", Id = item.UrlId})
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UrlTitle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LHUrlName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
-            <td>
-                <form asp-action="Approve" asp-controller="ApproveURLs" method="post">
-                    <input type="hidden" name="urlId" asp-for="@item.UrlId" />
-                    <input type="submit" value="Approve" />
-                </form>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<div class="wrapper">
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>List of suggested Urls</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+                            <li class="breadcrumb-item active">Categories</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="content">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Urls to be approved / rejected</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <input type="button" id="Approve" value="Approve" class="btn btn-primary" />
+                    <table class="table table-striped projects">
+                        <thead>
+                            <tr>
+                                <th style="width: 3%">
+                                    @Html.CheckBox("SelectAll")
+                                </th>
+                                <th style="width: 12%">
+                                    @Html.DisplayNameFor(model => model.UrlTitle)
+                                </th>
+                                <th style="width: 15%">
+                                    @Html.DisplayNameFor(model => model.LHUrlName)
+                                </th>
+                                <th style="width: 25%">
+                                    @Html.DisplayNameFor(model => model.Description)
+                                </th>
+                                <th style="width: 15%">
+                                    @Html.DisplayNameFor(model => model.CategoryName)
+                                </th>
+                                <th style="width: 15%">
+                                    @Html.DisplayNameFor(model => model.UserName)
+                                </th>
+                                <th style="width: 15%">
+                                    @Html.DisplayNameFor(model => model.IsApproved)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                            <tr>
+                                <td>
+                                    @Html.CheckBox(item.UrlId.ToString(), false, new { @class = "ckb", Id = item.UrlId })
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UrlTitle)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LHUrlName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CategoryName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UserName)
+                                </td>
+                                <td class="project-actions text-left">
+                                    <form asp-action="Approve" asp-controller="ApproveURLs" method="post">
+                                        <input type="hidden" name="urlId" asp-for="@item.UrlId" />
+                                        <input class="btn btn-primary btn-sm" type="submit" value="Approve" />
+                                    </form>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
